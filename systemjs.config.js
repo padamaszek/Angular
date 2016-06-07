@@ -1,8 +1,4 @@
-/**
- * PLUNKER VERSION (based on systemjs.config.js in angular.io)
- * System configuration for Angular 2 samples
- * Adjust as necessary for your application needs.
- */
+
 (function(global) {
 
   var ngVer = '@2.0.0-rc.1'; // lock in the angular package version; do not let it float to current!
@@ -71,10 +67,3 @@
   System.config(config);
 
 })(this);
-
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
