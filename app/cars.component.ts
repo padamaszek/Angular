@@ -8,7 +8,7 @@ import { CarDetailComponent } from './car-detail.component';
 @Component({
   selector: 'my-cars',
   templateUrl: 'app/cars.component.html',
-  styleUrls:  ['app/cars.component.css'],
+  styleUrls: ['app/cars.component.css'],
   directives: [CarDetailComponent]
 })
 export class CarsComponent implements OnInit {
@@ -23,9 +23,9 @@ export class CarsComponent implements OnInit {
 
   getCars() {
     this.carService
-        .getCars()
-        .then(cars => this.cars = cars)
-        .catch(error => this.error = error); // TODO: Display error message
+      .getCars()
+      .then(cars => this.cars = cars.filter(cars => cars.type === "Hatchbag"))
+      .catch(error => this.error = error); // TODO: Display error message
   }
 
   addCar() {
@@ -41,12 +41,12 @@ export class CarsComponent implements OnInit {
   delete(car: Car, event: any) {
     event.stopPropagation();
     this.carService
-        .delete(car)
-        .then(res => {
-          this.cars = this.cars.filter(h => h !== car);
-          if (this.selectedCar === car) { this.selectedCar = null; }
-        })
-        .catch(error => this.error = error); // TODO: Display error message
+      .delete(car)
+      .then(res => {
+        this.cars = this.cars.filter(h => h !== car);
+        if (this.selectedCar === car) { this.selectedCar = null; }
+      })
+      .catch(error => this.error = error); // TODO: Display error message
   }
 
   ngOnInit() {

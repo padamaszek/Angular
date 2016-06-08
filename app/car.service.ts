@@ -9,14 +9,15 @@ import { Car } from './car';
 export class CarService {
 
   private carsUrl = 'app/cars';  // URL to web api
-
   constructor(private http: Http) { }
 
+
   getCars(): Promise<Car[]> {
+    
     return this.http.get(this.carsUrl)
-               .toPromise()
-               .then(response => response.json().data)
-               .catch(this.handleError);
+             .toPromise()
+           .then(response => response.json().data)
+         .catch(this.handleError);
   }
 
   getCar(id: number) {

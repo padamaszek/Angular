@@ -16,3 +16,4 @@ platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     core_1.provide(http_1.XHRBackend, { useClass: angular2_in_memory_web_api_1.InMemoryBackendService }),
     core_1.provide(angular2_in_memory_web_api_1.SEED_DATA, { useClass: in_memory_data_service_1.InMemoryDataService }) // in-mem server data
 ]);
+//# sourceMappingURL=main.js.map

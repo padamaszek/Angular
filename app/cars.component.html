@@ -15,7 +15,15 @@
 
 <div *ngIf="selectedCar">
   <h2>
-    {{selectedCar.name | uppercase}} is my car
+    <p> {{selectedCar.name | uppercase}} </p>
+    <p> {{selectedCar.year}} </p>
+
+    <p> {{selectedCar.capacity}} cm^3 </p>
+
+    <p> {{selectedCar.horsepower}} HP </p>
+
+    <p> {{selectedCar.type}} </p>
+
   </h2>
   <button (click)="gotoDetail()">View Details</button>
 </div>

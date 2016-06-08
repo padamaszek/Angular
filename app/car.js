@@ -5,3 +5,4 @@ var Car = (function () {
     return Car;
 }());
 exports.Car = Car;
+//# sourceMappingURL=car.js.map

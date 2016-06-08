@@ -22,7 +22,7 @@ var CarsComponent = (function () {
         var _this = this;
         this.carService
             .getCars()
-            .then(function (cars) { return _this.cars = cars; })
+            .then(function (cars) { return _this.cars = cars.filter(function (cars) { return cars.type === "Hatchbag"; }); })
             .catch(function (error) { return _this.error = error; }); // TODO: Display error message
     };
     CarsComponent.prototype.addCar = function () {
@@ -70,3 +70,4 @@ var CarsComponent = (function () {
     return CarsComponent;
 }());
 exports.CarsComponent = CarsComponent;
+//# sourceMappingURL=cars.component.js.map

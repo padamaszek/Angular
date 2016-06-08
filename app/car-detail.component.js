@@ -68,3 +68,4 @@ var CarDetailComponent = (function () {
     return CarDetailComponent;
 }());
 exports.CarDetailComponent = CarDetailComponent;
+//# sourceMappingURL=car-detail.component.js.map

@@ -12,13 +12,14 @@ import { CarService } from './car.service';
 export class DashboardComponent implements OnInit {
 
   cars: Car[] = [];
-
+  
   constructor(
     private router: Router,
     private carService: CarService) {
   }
 
   ngOnInit() {
+
     this.carService.getCars()
       .then(cars => this.cars = cars.slice(1,5));
   }
