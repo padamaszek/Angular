@@ -10,58 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
-var car_1 = require('./car');
 var car_service_1 = require('./car.service');
 var CarDetailComponent = (function () {
-    function CarDetailComponent(carService, routeParams) {
-        this.carService = carService;
-        this.routeParams = routeParams;
-        this.close = new core_1.EventEmitter();
-        this.navigated = false; // true if navigated here
+    function CarDetailComponent(_teamService, _routeParams) {
+        this._teamService = _teamService;
+        this._routeParams = _routeParams;
     }
     CarDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.routeParams.get('id') !== null) {
-            var id = +this.routeParams.get('id');
-            this.navigated = true;
-            this.carService.getCar(id)
-                .then(function (car) { return _this.car = car; });
-        }
-        else {
-            this.navigated = false;
-            this.car = new car_1.Car();
-        }
+        var id = +this._routeParams.get('id');
+        this._teamService.getCar(id)
+            .subscribe(function (car) { return _this.car = car; }, function (error) { return _this.errorMessage = error; });
     };
-    CarDetailComponent.prototype.save = function () {
-        var _this = this;
-        this.carService
-            .save(this.car)
-            .then(function (car) {
-            _this.car = car; // saved car, w/ id if new
-            _this.goBack(car);
-        })
-            .catch(function (error) { return _this.error = error; }); // TODO: Display error message
-    };
-    CarDetailComponent.prototype.goBack = function (savedCar) {
-        if (savedCar === void 0) { savedCar = null; }
-        this.close.emit(savedCar);
-        if (this.navigated) {
-            window.history.back();
-        }
+    CarDetailComponent.prototype.goBack = function () {
+        window.history.back();
     };
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', car_1.Car)
+        __metadata('design:type', Array)
     ], CarDetailComponent.prototype, "car", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', Object)
-    ], CarDetailComponent.prototype, "close", void 0);
     CarDetailComponent = __decorate([
         core_1.Component({
-            selector: 'my-car-detail',
-            templateUrl: 'app/car-detail.component.html',
-            styleUrls: ['app/car-detail.component.css']
+            selector: 'my-team-detail',
+            templateUrl: 'app/team-detail.component.html',
+            styleUrls: ['app/team-detail.component.css']
         }), 
         __metadata('design:paramtypes', [car_service_1.CarService, router_deprecated_1.RouteParams])
     ], CarDetailComponent);

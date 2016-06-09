@@ -10,61 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var Observable_1 = require('rxjs/Observable');
+require('rxjs/add/operator/map');
+require('rxjs/add/operator/catch');
 require('rxjs/add/operator/toPromise');
 var CarService = (function () {
     function CarService(http) {
         this.http = http;
-        this.carsUrl = 'app/cars'; // URL to web api
+        this._url = 'http://localhost:8000/cars';
+        this._url2 = 'http://localhost:8000/car/';
     }
     CarService.prototype.getCars = function () {
-        return this.http.get(this.carsUrl)
-            .toPromise()
-            .then(function (response) { return response.json().data; })
+        return this.http.get(this._url)
+            .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CarService.prototype.getCar = function (id) {
-        return this.getCars()
-            .then(function (cars) { return cars.filter(function (car) { return car.id === id; })[0]; });
-    };
-    CarService.prototype.save = function (car) {
-        if (car.id) {
-            return this.put(car);
-        }
-        return this.post(car);
-    };
-    CarService.prototype.delete = function (car) {
-        var headers = new http_1.Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = this.carsUrl + "/" + car.id;
-        return this.http
-            .delete(url, headers)
-            .toPromise()
-            .catch(this.handleError);
-    };
-    // Add new Car
-    CarService.prototype.post = function (car) {
-        var headers = new http_1.Headers({
-            'Content-Type': 'application/json' });
-        return this.http
-            .post(this.carsUrl, JSON.stringify(car), { headers: headers })
-            .toPromise()
-            .then(function (res) { return res.json().data; })
-            .catch(this.handleError);
-    };
-    // Update existing Car
-    CarService.prototype.put = function (car) {
-        var headers = new http_1.Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = this.carsUrl + "/" + car.id;
-        return this.http
-            .put(url, JSON.stringify(car), { headers: headers })
-            .toPromise()
-            .then(function () { return car; })
+        return this.http.get(this._url2 + id)
+            .map(function (res) { return res.json(); })
             .catch(this.handleError);
     };
     CarService.prototype.handleError = function (error) {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
+        return Observable_1.Observable.throw(error.json().error || 'Server error');
     };
     CarService = __decorate([
         core_1.Injectable(), 
@@ -73,9 +40,4 @@ var CarService = (function () {
     return CarService;
 }());
 exports.CarService = CarService;
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/ 
 //# sourceMappingURL=car.service.js.map

@@ -15,12 +15,12 @@ var DashboardComponent = (function () {
     function DashboardComponent(router, carService) {
         this.router = router;
         this.carService = carService;
-        this.cars = [];
     }
     DashboardComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.carService.getCars()
-            .then(function (cars) { return _this.cars = cars.slice(1, 5); });
+            .subscribe(function (cars) { return _this.cars = cars; }, function (error) { return _this.errorMessage = error; });
+        /*.then(cars => this.cars = cars.filter(cars => cars.horsepower > 300));*/
     };
     DashboardComponent.prototype.gotoDetail = function (car) {
         var link = ['CarDetail', { id: car.id }];

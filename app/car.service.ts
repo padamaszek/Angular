@@ -1,84 +1,39 @@
 import { Injectable }    from '@angular/core';
-import { Headers, Http } from '@angular/http';
-
+import { Headers, Http,Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 
 import { Car } from './car';
 
+
 @Injectable()
 export class CarService {
 
-  private carsUrl = 'app/cars';  // URL to web api
+
+ errorMessage: string;
+
   constructor(private http: Http) { }
-
-
-  getCars(): Promise<Car[]> {
     
-    return this.http.get(this.carsUrl)
-             .toPromise()
-           .then(response => response.json().data)
-         .catch(this.handleError);
-  }
+    _url: string = 'http://localhost:8000/cars'
+    _url2: string = 'http://localhost:8000/car/'
 
-  getCar(id: number) {
-    return this.getCars()
-               .then(cars => cars.filter(car => car.id === id)[0]);
-  }
-
-  save(car: Car): Promise<Car>  {
-    if (car.id) {
-      return this.put(car);
+    getCars(): Observable<Car[]> {
+        return this.http.get(this._url)
+            .map((res: Response) => res.json())
+            .catch(this.handleError);
     }
-    return this.post(car);
-  }
-
-  delete(car: Car) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    let url = `${this.carsUrl}/${car.id}`;
-
-    return this.http
-               .delete(url, headers)
-               .toPromise()
-               .catch(this.handleError);
-  }
-
-  // Add new Car
-  private post(car: Car): Promise<Car> {
-    let headers = new Headers({
-      'Content-Type': 'application/json'});
-
-    return this.http
-               .post(this.carsUrl, JSON.stringify(car), {headers: headers})
-               .toPromise()
-               .then(res => res.json().data)
-               .catch(this.handleError);
-  }
-
-  // Update existing Car
-  private put(car: Car) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    let url = `${this.carsUrl}/${car.id}`;
-
-    return this.http
-               .put(url, JSON.stringify(car), {headers: headers})
-               .toPromise()
-               .then(() => car)
-               .catch(this.handleError);
-  }
-
-  private handleError(error: any) {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
-  }
+    
+    getCar(id: number): Observable<Car[]> {
+        return this.http.get(this._url2 + id)
+            .map((res: Response) => res.json())
+            .catch(this.handleError);
+    }
+  
+  private handleError(error: Response) {
+        return Observable.throw(error.json().error || 'Server error');
+    }
+  
+  
 }
-
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

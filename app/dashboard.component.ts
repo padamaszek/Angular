@@ -11,17 +11,21 @@ import { CarService } from './car.service';
 })
 export class DashboardComponent implements OnInit {
 
-  cars: Car[] = [];
+  
   
   constructor(
     private router: Router,
     private carService: CarService) {
   }
 
-  ngOnInit() {
+  errorMessage: string;
+  cars: Car[];
 
-    this.carService.getCars()
-      .then(cars => this.cars = cars.slice(1,5));
+  ngOnInit() {
+ this.carService.getCars()
+      .subscribe(cars => this.cars = cars,
+                       error =>  this.errorMessage = <any>error);
+    /*.then(cars => this.cars = cars.filter(cars => cars.horsepower > 300));*/
   }
 
   gotoDetail(car: Car) {
